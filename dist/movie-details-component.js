@@ -10,6 +10,15 @@ class MovieDetailsComponent extends HTMLElement {
     this._render();
   }
 
+  get error() {
+    return this._error;
+  }
+
+  set error(value) {
+    this._error = value;
+    this._renderError();
+  }
+
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -22,19 +31,42 @@ class MovieDetailsComponent extends HTMLElement {
 
     ratings.forEach((rating, idx) => {
       let $ratingItem = document.createElement('li');
-      $ratingItem.innerHTML = `${rating.Source} - ${rating.Value}`;
+      $ratingItem.innerHTML = `${rating.Source}${'<br/>'}${rating.Value}`;
       $ratingsList.appendChild($ratingItem);
     });
     return $ratingsList.innerHTML;
   }
 
   _render() {
-
     this.shadowRoot.innerHTML = `
-      <h2>${this.movie.Title}</h2>
-      <h3>Ratings</h3>
-      <div id="ratings">${this._renderRatingsList(this.movie.Ratings)}</div>
+      <style>
+        li {
+            list-style-type: none;
+            padding: 0 20px;
+        }
+        
+        .ratingsInfo {
+            text-align: center;
+            color: #ffffff;
+        }
+        
+        #ratings {
+            max-width: 500px;
+            display: inline-flex;
+        }
+      </style>  
+      <div class="ratingsInfo">
+        <h1>${this.movie.Title}</h1>
+        <h3>Ratings</h3>
+        <div id="ratings">${this._renderRatingsList(this.movie.Ratings)}</div>
+      </div>
     `;
+  }
+
+  _renderError() {
+    this.shadowRoot.innerHTML = `
+      <h2>${this.error.Error}</h2>
+    `
   }
 }
 
