@@ -54,18 +54,31 @@ class MovieDetailsComponent extends HTMLElement {
             max-width: 500px;
             display: inline-flex;
         }
+        
+        .marginTop {
+            margin-top: 20px;
+        }
       </style>  
       <div class="ratingsInfo">
         <h1>${this.movie.Title}</h1>
         <h3>Ratings</h3>
         <div id="ratings">${this._renderRatingsList(this.movie.Ratings)}</div>
+        <div class="marginTop">Year: ${this.movie.Year}</div>
+        <div class="marginTop">Runtime: ${this.movie.Runtime}</div>
+        <img class="marginTop" src=${this.movie.Poster} />
       </div>
     `;
   }
 
   _renderError() {
     this.shadowRoot.innerHTML = `
-      <h2>${this.error.Error}</h2>
+      <style>
+        .errorText {
+            color: #ffffff;
+            text-align: center;
+        }
+      </style>  
+      <h2 class="errorText">${this.error.Error}</h2>
     `
   }
 }
